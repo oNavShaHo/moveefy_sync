@@ -80,12 +80,6 @@ export default function MusicPlayerPage() {
           videoRef.current.pause();
           setIsPlaying(false);
           break;
-        case "plus":
-          videoRef.current.currentTime += 10;
-          break;
-        case "minus":
-          videoRef.current.currentTime -= 10;
-          break;
         default:
           const t = parseFloat(msg);
           if (!isNaN(t)) videoRef.current.currentTime = t;
@@ -169,14 +163,16 @@ export default function MusicPlayerPage() {
 
   const handleForward = () => {
     if (!videoRef.current) return;
-    videoRef.current.currentTime += 10;
-    emitAction("plus");
+    const newTime = videoRef.current.currentTime + 10;
+    videoRef.current.currentTime = newTime;
+    emitAction(newTime);
   };
 
   const handleBackward = () => {
     if (!videoRef.current) return;
-    videoRef.current.currentTime -= 10;
-    emitAction("minus");
+    const newTime = Math.max(0, videoRef.current.currentTime - 10);
+    videoRef.current.currentTime = newTime;
+    emitAction(newTime);
   };
 
   const handleSync = () => {
