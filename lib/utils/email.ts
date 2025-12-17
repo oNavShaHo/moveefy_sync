@@ -58,7 +58,7 @@ export async function sendVerificationEmail(
   token: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000" ;
     const verificationLink = `${baseUrl}/verify-email?token=${token}`;
 
     // Determine from email based on environment
