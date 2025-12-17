@@ -7,10 +7,9 @@ export default async function RoomLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cokkiesMaker = await cookies();
-  const token = cokkiesMaker.get("token")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
   
-  console.log(token)
   // If no token → force login
   if (!token) {
     redirect("/login");
@@ -20,9 +19,8 @@ export default async function RoomLayout({
     // Verify JWT token (Edge compatible)
     jwt.verify(token, process.env.JWT_SECRET!);
   } catch (error) {
-    // If token invalid → logout + redirect
-    cokkiesMaker.set("token", "", { maxAge: 0 });
-    redirect("/login");
+    // If token invalid → redirect to clear-token route which will clear cookie and redirect to login
+    redirect("/api/clear-token");
   }
 
   return <>{children}</>;
